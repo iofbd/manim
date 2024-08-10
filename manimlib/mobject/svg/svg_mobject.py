@@ -22,6 +22,8 @@ from manimlib.utils.iterables import hash_obj
 from manimlib.utils.simple_functions import hash_string
 
 from typing import TYPE_CHECKING
+import defusedxml.ElementTree
+
 if TYPE_CHECKING:
     from typing import Tuple
     from manimlib.typing import ManimColor, Vect3Array
@@ -120,7 +122,7 @@ class SVGMobject(VMobject):
         )
 
     def mobjects_from_file(self, file_path: str) -> list[VMobject]:
-        element_tree = ET.parse(file_path)
+        element_tree = defusedxml.ElementTree.parse(file_path)
         new_tree = self.modify_xml_tree(element_tree)
 
         # New svg based on tree contents
