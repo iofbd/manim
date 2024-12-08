@@ -46,6 +46,7 @@ from manimlib.utils.space_ops import get_norm
 from manimlib.utils.space_ops import rotation_matrix_transpose
 
 from typing import TYPE_CHECKING
+import fickling
 
 if TYPE_CHECKING:
     from typing import Callable, Iterable, Iterator, Union, Tuple, Optional
@@ -679,7 +680,7 @@ class Mobject(object):
             log.error(f"No file found at {file_path}")
             sys.exit(2)
         with open(file_path, "rb") as fp:
-            mobject = pickle.load(fp)
+            mobject = fickling.load(fp)
         return mobject
 
     def become(self, mobject: Mobject, match_updaters=False) -> Self:
