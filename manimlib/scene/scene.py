@@ -5,7 +5,6 @@ import inspect
 import os
 import platform
 import pyperclip
-import random
 import time
 from functools import wraps
 
@@ -42,6 +41,7 @@ from manimlib.utils.family_ops import recursive_mobject_remove
 from manimlib.utils.iterables import batch_by_property
 
 from typing import TYPE_CHECKING
+import secrets
 
 if TYPE_CHECKING:
     from typing import Callable, Iterable
@@ -144,7 +144,7 @@ class Scene(object):
 
         # Much nicer to work with deterministic scenes
         if self.random_seed is not None:
-            random.seed(self.random_seed)
+            secrets.SystemRandom().seed(self.random_seed)
             np.random.seed(self.random_seed)
 
     def __str__(self) -> str:
