@@ -24,3 +24,4 @@ sympy
 tqdm
 typing-extensions; python_version < "3.11"
 validators
+defusedxml==0.7.1
