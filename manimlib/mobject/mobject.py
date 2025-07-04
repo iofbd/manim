@@ -5,7 +5,6 @@ from functools import wraps
 import itertools as it
 import os
 import pickle
-import random
 import sys
 
 import moderngl
@@ -46,6 +45,7 @@ from manimlib.utils.space_ops import get_norm
 from manimlib.utils.space_ops import rotation_matrix_transpose
 
 from typing import TYPE_CHECKING
+import secrets
 
 if TYPE_CHECKING:
     from typing import Callable, Iterable, Iterator, Union, Tuple, Optional
@@ -568,7 +568,7 @@ class Mobject(object):
         if recurse:
             for submob in self.submobjects:
                 submob.shuffle(recurse=True)
-        random.shuffle(self.submobjects)
+        secrets.SystemRandom().shuffle(self.submobjects)
         self.assemble_family()
         return self
 
