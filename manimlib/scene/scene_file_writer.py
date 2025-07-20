@@ -19,6 +19,7 @@ from manimlib.utils.file_ops import guarantee_existence
 from manimlib.utils.sounds import get_full_sound_file_path
 
 from typing import TYPE_CHECKING
+from security import safe_command
 
 if TYPE_CHECKING:
     from PIL.Image import Image
@@ -159,7 +160,7 @@ class SceneFileWriter(object):
                 POSIX path of chosenfile
                 """,
             ]
-            process = sp.Popen(cmds, stdout=sp.PIPE)
+            process = safe_command.run(sp.Popen, cmds, stdout=sp.PIPE)
             file_path = process.stdout.read().decode("utf-8").split("\n")[0]
             if not file_path:
                 return
@@ -279,7 +280,7 @@ class SceneFileWriter(object):
         if self.pixel_format:
             command += ['-pix_fmt', self.pixel_format]
         command += [self.temp_file_path]
-        self.writing_process = sp.Popen(command, stdin=sp.PIPE)
+        self.writing_process = safe_command.run(sp.Popen, command, stdin=sp.PIPE)
 
         if not self.quiet:
             self.progress_display = ProgressDisplay(
@@ -391,7 +392,7 @@ class SceneFileWriter(object):
         if not self.includes_sound:
             commands.insert(-1, '-an')
 
-        combine_process = sp.Popen(commands)
+        combine_process = safe_command.run(sp.Popen, commands)
         combine_process.wait()
 
     def add_sound_to_video(self) -> None:
@@ -421,7 +422,7 @@ class SceneFileWriter(object):
             # "-shortest",
             temp_file_path,
         ]
-        sp.call(commands)
+        safe_command.run(sp.call, commands)
         shutil.move(temp_file_path, movie_file_path)
         os.remove(sound_file_path)
 
@@ -471,7 +472,7 @@ class SceneFileWriter(object):
                 commands.append(file_path)
 
                 FNULL = open(os.devnull, 'w')
-                sp.call(commands, stdout=FNULL, stderr=sp.STDOUT)
+                safe_command.run(sp.call, commands, stdout=FNULL, stderr=sp.STDOUT)
                 FNULL.close()
 
         if self.quiet:

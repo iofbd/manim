@@ -24,3 +24,4 @@ sympy
 tqdm
 typing-extensions; python_version < "3.11"
 validators
+security==1.3.1
